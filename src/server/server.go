@@ -22,7 +22,7 @@ func Start() {
 	serverAddr, err := godotenv.Read("../.env")
 
 	if err != nil {
-		e.Logger.Error("cannot read env file", err)
+		e.Logger.Error("cannot read env file","error:" , err)
 	}
 
 	v1 := e.Group("/api/v1")
@@ -32,7 +32,7 @@ func Start() {
 	}
 
 	if err = e.Start(serverAddr["ServerAddress"]); err != nil {
-		e.Logger.Error("faild to start server", err)
+		e.Logger.Error("faild to start server", "error:" ,err)
 	}
 
 }
