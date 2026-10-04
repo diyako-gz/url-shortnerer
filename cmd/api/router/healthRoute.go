@@ -1,7 +1,7 @@
 package router
 
 import (
-	"urlShortnerer/src/api/handler"
+	"urlShortnerer/cmd/api/handler"
 
 	"github.com/labstack/echo/v5"
 )
