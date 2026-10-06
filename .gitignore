@@ -1,0 +1,33 @@
+# Environment files (secrets) - matches at any folder depth
+.env
+.env.*
+!.env.example
+
+# Go build output
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+/bin/
+/tmp/
+
+# Go workspace and coverage
+go.work
+go.work.sum
+coverage.txt
+coverage.html
+
+# Logs
+*.log
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db

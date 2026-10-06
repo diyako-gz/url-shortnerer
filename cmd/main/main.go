@@ -29,6 +29,21 @@ func main() {
 		fmt.Println("disconnected from mongo")
 	}()
 
+	redisConfig := config.LoadRedis()
+	redisClient, err := db.ConnectRedis(redisConfig.Addr)
+	if err != nil {
+		log.Fatal("failed to connect to Redis:", err)
+	} else {
+		fmt.Println("connected to redis")
+	}
+
+	defer func() {
+		if err := db.DisconnectRedis(redisClient); err != nil {
+			log.Fatal("failed to disconnect from Redis:", err)
+		}
+		fmt.Println("disconnected from redis")
+	}()
+
 	if err := server.Start(); err != nil {
 		fmt.Println("failed to start server", "error:", err)
 	}
