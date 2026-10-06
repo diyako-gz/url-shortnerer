@@ -22,7 +22,7 @@ type LoadEnv struct {
 var ServerAddress string
 
 func LoadedEnv() {
-	err := godotenv.Load("../.env")
+	err := godotenv.Load("../../.env")
 	if err != nil {
 		print("error ignored")
 	}
@@ -43,13 +43,13 @@ func LoadServerAdd() (serverAddres string) {
 
 func LoadMongo() *MongoDb {
 	return &MongoDb{
-		DbName: os.Getenv("mongoName"),
+		DbName: os.Getenv("MongoName"),
 		Url:    os.Getenv("MongoUrl"),
 	}
 }
 
 func LoadRedis() *RedisDb {
 	return &RedisDb{
-		Addr: os.Getenv("redisAdrr"),
+		Addr: os.Getenv("RedisAddr"),
 	}
 }
