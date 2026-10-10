@@ -10,6 +10,7 @@ import (
 
 	"github.com/labstack/echo/v5"
 	"github.com/labstack/echo/v5/middleware"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func Start() error {
@@ -28,6 +29,8 @@ func Start() error {
 	{
 		health := v1.Group("/health")
 		router.HealthRoute(health)
+		links := v1.Group("/links")
+		router.LinkRoute(links)
 	}
 
 	err := e.Start(ServerAddress)
@@ -36,21 +39,23 @@ func Start() error {
 }
 
 func Run() error {
+	var MongoClient *mongo.Client
 	config.LoadedEnv()
 
 	mongoConfig := config.LoadMongo()
-	mongoClient, err := db.ConnectMongo(mongoConfig.Url)
+	MongoClient, err := db.ConnectMongo(mongoConfig.Url)
 	if err != nil {
-		return fmt.Errorf("failed to connect to MongoDB: %w", err)
+		fmt.Println("failed to connect to MongoDB:", err)
+		return err
 	} else {
 		fmt.Println("connected to mongo")
 	}
 
-	mongo := mongoClient.Database(mongoConfig.DbName)
+	mongo := MongoClient.Database(mongoConfig.DbName)
 	log.Println("mongo connected", mongo.Name())
 
 	defer func() {
-		if err := db.DisconnectMongo(mongoClient); err != nil {
+		if err := db.DisconnectMongo(MongoClient); err != nil {
 			fmt.Println("failed to disconnect from MongoDB:", err)
 		}
 		fmt.Println("disconnected from mongo")
